@@ -1,8 +1,9 @@
 <template>
   <div
-   
     class="bg-container"
   >
+  <div class="players-container ">
+
     <div class="form-group pt-4 pl-4">
       <input
         type="text"
@@ -11,11 +12,12 @@
         placeholder="Recherche un joueur"
       />
     </div>
-    <div class="d-flex flex-column">
-      <div v-for="player in players" :key="player.id">
-        <ticket-player :player="player" />
-      </div>
+    <div class="list d-flex flex-column">
+      
+        <ticket-player :player="player" v-for="player in players" :key="player.id" />
+     
     </div>
+  </div>
   </div>
 </template>
 <script>
@@ -53,9 +55,19 @@ export default {
  
 
   width: 100%;
-  padding: 3%;
+  
 }
+.players-container{
+     height: 100%;
+    max-width: 640px;
 
+}
+/* .list{
+     height: 100%;
+      padding: 48px 0 64px;
+      overflow: auto;
+      overflow-x: hidden;
+} */
 .form-control {
   background-color: black;
   opacity: 50%;
@@ -72,7 +84,7 @@ export default {
   font-size: 110%;
   letter-spacing: 1px;
 }
-@media screen and (min-width: 993px) {
+/* @media screen and (min-width: 993px) {
   .form-control {
     max-width: 35%;
   }
@@ -86,5 +98,5 @@ export default {
   .form-control {
     max-width: 96%;
   }
-}
+} */
 </style>
