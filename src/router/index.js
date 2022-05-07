@@ -11,7 +11,7 @@ const routes = [
     },
     {
         name:"Detail",
-        path:"/detail",
+        path:"/detail/player/:id",
         component:Detail,
         
     }

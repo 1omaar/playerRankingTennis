@@ -1,73 +1,107 @@
 <template>
-  <div
-    class="bg-container"
-  >
-  <div class="players-container ">
-
-    <div class="form-group pt-4 pl-4">
-      <input
-        type="text"
-        class="form-control"
-        id="formGroupExampleInput"
-        placeholder="Recherche un joueur"
-      />
+  <div class="bg-container">
+    <div class="players-container">
+      <div class="form-group pt-4 pl-4">
+        <input
+          type="text"
+          class="form-control"
+          id="formGroupExampleInput"
+          placeholder="Recherche un joueur"
+          v-model="searchValue"
+         
+        />
+      </div>
+      <div class="list d-flex flex-column">
+        <ticket-player
+          :player="player"
+          v-for="player in listOfPlayers"
+          :key="player.id"
+          @click="openModal(player)"
+        />
+      </div>
     </div>
-    <div class="list d-flex flex-column">
-      
-        <ticket-player :player="player" v-for="player in players" :key="player.id" />
-     
-    </div>
-  </div>
+    <!-- modal player -->
+   <ModalPlayer  
+      v-if="showModal"
+    
+    ></ModalPlayer>
   </div>
 </template>
 <script>
 import TicketPlayer from "@/components/TicketPlayer.vue";
+import { mapGetters } from "vuex";
+import ModalPlayer from '@/components/ModalPlayer.vue';
 
-import axios from "axios";
 export default {
   name: "Home",
   components: {
     TicketPlayer,
+    ModalPlayer,
   },
   data() {
     return {
-      players: null,
-      imgPath: require("@/assets/image/tennis.jpg"),
+      searchValue: null,
+    
     };
   },
-  methods: {},
-  beforeCreate() {
-    axios
-      .get("https://data.latelier.co/training/tennis_stats/headtohead.json")
-      .then((response) => {
-        this.players = response.data.players;
-      })
-      .catch((error) => console.log(error));
+  computed: {
+    ...mapGetters({
+      players: "players",
+      showModal:"showModal"
+    }),
+      listOfPlayers () {
+          if (this.searchValue) {
+             return  this.players.filter((item) => {
+                  
+                return  `${item.firstname}|${item.lastname}|`
+            .toLowerCase()
+            .includes(this.searchValue.toLowerCase());
+        })
+        .sort((A,B)=>A.data.rank-B.data.rank);
+
+      }
+      return this.players.sort((a,b)=>a.data.rank-b.data.rank)
+     }
+  },
+  methods: {
+   
+  async openModal(player){
+    
+     await this.$store.commit('setShowModal',true)
+     try {
+         this.$store.commit('setSelectPlayer',player)
+         
+     } catch (error) {
+         console.log(error)
+     }
+    }
+  },
+
+  async created() {
+    this.$store.dispatch("getPlayers");
   },
 };
 </script>
-<style >
+<style lang="scss" scoped>
+
+
 .bg-container {
   background-size: cover;
   background-repeat: no-repeat;
 
   background-position: center center;
- 
 
   width: 100%;
-  
 }
-.players-container{
-     height: 100%;
-    max-width: 640px;
-
+.players-container {
+  height: 100%;
+  max-width: 640px;
 }
-/* .list{
-     height: 100%;
-      padding: 48px 0 64px;
-      overflow: auto;
-      overflow-x: hidden;
-} */
+.list{
+     height:100vh;
+      padding-right: 2%;
+      
+}
 .form-control {
   background-color: black;
   opacity: 50%;
@@ -84,19 +118,5 @@ export default {
   font-size: 110%;
   letter-spacing: 1px;
 }
-/* @media screen and (min-width: 993px) {
-  .form-control {
-    max-width: 35%;
-  }
-}
-@media screen and (max-width: 992px) {
-  .form-control {
-    max-width: 70%;
-  }
-}
-@media screen and (max-width: 691px) {
-  .form-control {
-    max-width: 96%;
-  }
-} */
+
 </style>

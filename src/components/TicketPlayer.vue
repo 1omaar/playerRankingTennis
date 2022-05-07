@@ -1,5 +1,6 @@
 <template>
   <div class="ticket-style m-2 m-md-4 container-fluid d-flex flex-column">
+     <a href="#" @click="openModal()"></a>
     <div class="row flex-fill">
       <div class=" col-5 col-sm-4 d-flex justify-content-start d-sm-block">
         <img class="picture " :src="player.picture" alt="photo du joueur" />
@@ -29,6 +30,7 @@
   </div>
 </template>
 <script>
+
 export default {
   name: "TicketPlayer",
   props: {
@@ -36,6 +38,10 @@ export default {
       type: Array,
     },
   },
+ 
+  methods:{
+   
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -46,9 +52,10 @@ export default {
   background: $white-color;
   width: 100%;
   height: 150px;
- 
+    box-shadow: 7px 7px 30px -5px rgba(0,0,0,0.1);
   position: relative;
   overflow: hidden;
+  transition: transform .1s;
     &::before {
     content: '';
     position: absolute;
@@ -71,10 +78,29 @@ export default {
     right: 100%;
     bottom: 0;
     left: 0;
-    background: white;
+    background: $white-color;
 
     transition: 0.6s ease-in;
   }
+}
+.ticket-style a{
+ 
+  text-align: right;
+  display: block;
+  z-index: 1;
+}
+.ticket-style a::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: ' ';
+}
+.ticket-style:hover{
+-ms-transform: scale(1.1); /* IE 9 */
+-webkit-transform: scale(1.1); /* Safari 3-8 */
+transform: scale(1.1);
 }
 
 .picture{
@@ -101,11 +127,15 @@ div > h3 {
   
 }
 
+
 .sous-titre-card-joueur-home {
-  font-family: $text-font;
-  font-weight: bold;
-  color: $black-color;
-  opacity: 30%;
+  text-transform: uppercase;
+     font-family: $text-font;
+    
+      color: $grey-color;
+      letter-spacing: 2px;
+          font-size: 14px;
+          font-weight: 600;
   text-align: start;
 }
 @media (min-width: $breakpoint-small) {
@@ -114,13 +144,7 @@ div > h3 {
       width: 192px;
     }
 
-    // .info-container {
-    //   padding: 40px 48px 40px 208px;
-
-    //   .info-line .info {
-    //     display: block;
-    //   }
-    // }
+   
   }
 }
 </style>

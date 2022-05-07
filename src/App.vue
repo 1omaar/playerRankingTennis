@@ -7,17 +7,9 @@
 
 export default {
   name: 'App',
-  components: {
-   
-  },
-    data() {
-      return {
-          players:null,
-      }
-  },
-  methods:{
+ 
   
-  },
+ 
 
 }
 </script>
@@ -30,7 +22,7 @@ export default {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('~@/assets/image/tennis.jpg');
+  background-image: url('~@/assets/image/tennis.webp');
   background-size: cover;
   
 
