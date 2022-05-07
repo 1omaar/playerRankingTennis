@@ -1,96 +1,103 @@
 <template>
   <div class="modal-backdrop" v-if="player">
     <button type="button" class="btn-close" @click="closeModal">+</button>
-    <div class="modal">
-      <div class="container-image">
-        <img
-          :src="player.picture"
-          :alt="`photo de ${player.firstname}`"
-  
-        />
-      </div>
-      <div class="name-style">
-        <h1 :firstName="player.firstname">{{ player.firstname }}</h1>
-        <h2>{{ player.lastname }}</h2>
-      </div>
+    <div class="modal container-fluid">
+      <div class="row d-flex">
+        <div class="container-image col-sm-3 col d-none d-sm-block">
+          <img :src="player.picture" :alt="`photo de ${player.firstname}`" />
+        </div>
+        <div class="col-sm-5 col d-flex flex-column  ">
 
-      <div class="container info-section">
-        <div class="row">
-          <div class="col d-flex flex-column ">
-            <p>Rank</p>
-            <span>#{{player.data.rank}}</span>
+        <div class="name-style mb-4">
+          <h1 :firstName="player.firstname">{{ player.firstname }}</h1>
+          <h2>{{ player.lastname }}</h2>
+        </div>
+        <div class="container info-section mt-4">
+          <div class="row">
+            <div class="col ">
+              <p>Rank</p>
+              <b>#{{ player.data.rank }}</b>
+            </div>
+            <div class="col ">
+              <p>Points</p>
+              <b>{{ player.data.points }}</b>
+            </div>
+            <div class="col ">
+              <p>Country</p>
+              <b>{{nameOfCountry[0].name}}</b>
+            </div>
           </div>
-          <div class="col d-flex flex-column">
-            <p>Points</p>
-            <span>{{player.data.points}}</span>
+          <div class="row">
+            <div class="col-sm-4 col">
+              <p>Birthday</p>
+              <b>23/04/1995</b>
+            </div>
+            <div class="col-sm-8 col">
+              <p>Age</p>
+              <b>{{ player.data.age }}</b>
+            </div>
           </div>
-          <div class="col d-flex flex-column">
-            <p>Country</p>
-            <span></span>
+          <div class="row ">
+            <div class="col-sm-4 col  ">
+              <p>Weight</p>
+              <b>{{ player.data.weight / 1000 }} kg</b>
+            </div>
+            <div class="col-sm-8 col ">
+              <p>Height</p>
+              <b>{{ player.data.height }} cmm</b>
+            </div>
           </div>
         </div>
-        <div class="row ">
-          <div class="col-4 d-flex flex-column">
-            <p>Birthday</p>
-            <span>23/04/1995</span>
+</div>
+
+        <div class="additional-info-container col-sm-4 col d-sm-flex flex-column justify-content-between">
+            <div class="container">
+            <div class="row d-flex justify-content-center">
+          <div
+            class="picture-country  "
+            :style="{ backgroundImage: `url(${player.country.picture})` }"
+          ></div>
           </div>
-          <div class="col-8 d-flex flex-column">
-            <p>Age</p>
-            <span>{{player.data.age}}</span>
+          <div class="row d-flex justify-content-center mt-2">
+            <h1 class="country-code">{{player.country.code}}</h1>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-4 d-flex flex-column">
-            <p>Weight</p>
-            <span>{{player.data.weight/1000}} kg</span>
-          </div>
-          <div class="col-8 d-flex flex-column ">
-            <p>Height</p>
-            <span>{{player.data.height}} cmm</span>
-          </div>
-        </div>
-      </div>
-      <div class="additional-info-container">
-          <div class="picture-country" :style="{ backgroundImage: `url(${player.country.picture})`}"></div>
+            </div>
           <div class="container">
-              <div class="row">
-                  <div class="col">
-                      <p>career Titles</p>
-
-                  </div>
-
+            <div class="row ">
+              <div class="col">
+                <p>career Titles</p>
               </div>
-              <div class="row">
-                  <div class="col">
-                      <span>
-                          text.......
-                      </span>
-                  </div>
+            </div>
+            <div class="row">
+              <div class="col success-info" >
+                <span> Rafael Nadal dispute en 2002 son premier tournoi sur le circuit majeur à Majorque, tournoi se jouant sur terre battue, dans sa ville natale, à la fin du mois d'avril 2002, bénéficiant d'une wild card (invitation). Il remporte ainsi son premier match « officiel » contre le Paraguayen Ramón Delgado en deux manches (6-4, 6-4). Au tour suivant, il s'incline néanmoins contre le Belge Olivier Rochus (2-6, 2-6).</span>
               </div>
+            </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
- import json from '@/data/json'
+import data from "@/data/data.json";
 import { mapGetters } from "vuex";
 export default {
   name: "ModalPlayer",
   data() {
-      return {
-          myJson:json
-      }
+    return {
+      myJson: data
+    };
   },
   computed: {
     ...mapGetters({
       player: "player",
     }),
-//    async nameOfCountry(){
-//    return await this.myJson.filter(country=>{
-//             country.alpha === this.player.country.code
-//         })
-//     }
+        nameOfCountry(){
+       return this.myJson.filter(country=>{
+               return country.alpha == this.player.country.code
+            })
+        }
   },
 
   methods: {
@@ -112,11 +119,18 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
+.country-code{
+  letter-spacing: 25px;
+  font-size: 50px;
+  color: $black-color;
+  opacity:30%;
+  font-weight: 100 !important;
+   font-family: $title-font;
+}
 .modal {
-  width: 80%;
+  max-width: 80%;
   height: 90%;
-  // position: absolute;
+  position: absolute;
   top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -126,15 +140,25 @@ export default {
   display: flex;
   overflow: initial;
 }
-
+.modal > .row {
+  width: 100vw;
+ position: relative;
+ margin-left: -46vw;
+ height: 100px;
+ margin-top: 100px;
+ left: 50%;
+}
 .container-image > img {
   position: absolute;
   filter: drop-shadow(7px 0px 10px $black-color);
   float: left;
-  top: 0;
-  bottom: 0;
-  left: -20vh;
-  width: 70vh;
+    max-width:  600px;
+    height: 800px;
+    object-fit: cover;  
+  left: -3vh;
+  
+  bottom: -2vh;
+  flex-shrink: 0;
 }
 
 .btn-close {
@@ -151,13 +175,13 @@ export default {
   background: transparent;
 }
 .btn-close:hover {
-  background: -webkit-linear-gradient(#eee, #333);
+  background: -webkit-linear-gradient(#eee, grey);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .name-style {
-  margin: 50px 0 0 250px;
+  
   h1 {
     position: relative;
     font-family: $title-font;
@@ -182,45 +206,45 @@ export default {
     font-size: max(7vw, 60px);
   }
 }
-.info-section {
-position:absolute ;
-width: 46%;
-margin: 30% 0 0 30%;
-}
+
 .info-section > .row {
-    margin-bottom: 10%;
+  margin-bottom: 10%;
 }
- p {
-     text-transform: uppercase;
-     font-family: $text-font;
-      color: $grey-color;
-      letter-spacing: 2px;
-          font-size: 20px;
-          font-weight: 600;
-          margin-bottom: 17px;
+p {
+  text-transform: uppercase;
+  font-family: $text-font;
+  color: $black-color;
+  opacity: 30%;
+  letter-spacing: 2px;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 17px 0;
 }
-span{
-      font-family: $title-font;
-          font-size: 20px;
-          font-weight: 600;
-          color: $main-color;
-       
+b {
+  font-family: $title-font;
+  font-size: 20px;
+  font-weight: 600;
+  color: $main-color;
 }
 .picture-country {
-   
-      bottom: 0;
-      width: 21vh;
-      height: 13.5vh;
-      background-repeat: no-repeat;
-      background-size: cover;
-      margin-bottom: 20vh;
-     
+  bottom: 0;
+  width: 21vh;
+  height: 13.5vh;
+  background-repeat: no-repeat;
+  background-size: contain;
+ 
 }
-.additional-info-container{
-   
-   margin: 0 0 27vh 40vh ;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-evenly;
+.additional-info-container {
+position: relative;
+//  height:36vh;
+ max-width:16% ;
+
+}
+.success-info{
+  font-weight: lighter;
+    font-family: $title-font;
+  font-size: 20px;
+  
+  color: $main-color;
 }
 </style>

@@ -8,7 +8,7 @@
           id="formGroupExampleInput"
           placeholder="Recherche un joueur"
           v-model="searchValue"
-         
+          v-on:input="searchByName"
         />
       </div>
       <div class="list d-flex flex-column">
@@ -16,21 +16,18 @@
           :player="player"
           v-for="player in listOfPlayers"
           :key="player.id"
-          @click="openModal(player)"
+          @click.prevent="openModal(player)"
         />
       </div>
     </div>
     <!-- modal player -->
-   <ModalPlayer  
-      v-if="showModal"
-    
-    ></ModalPlayer>
+    <ModalPlayer v-if="showModal"></ModalPlayer>
   </div>
 </template>
 <script>
 import TicketPlayer from "@/components/TicketPlayer.vue";
 import { mapGetters } from "vuex";
-import ModalPlayer from '@/components/ModalPlayer.vue';
+import ModalPlayer from "@/components/ModalPlayer.vue";
 
 export default {
   name: "Home",
@@ -41,50 +38,53 @@ export default {
   data() {
     return {
       searchValue: null,
-    
+      listOfPlayers: null,
     };
   },
   computed: {
     ...mapGetters({
       players: "players",
-      showModal:"showModal"
+      showModal: "showModal",
     }),
-      listOfPlayers () {
-          if (this.searchValue) {
-             return  this.players.filter((item) => {
-                  
-                return  `${item.firstname}|${item.lastname}|`
-            .toLowerCase()
-            .includes(this.searchValue.toLowerCase());
-        })
-        .sort((A,B)=>A.data.rank-B.data.rank);
-
-      }
-      return this.players.sort((a,b)=>a.data.rank-b.data.rank)
-     }
   },
   methods: {
-   
-  async openModal(player){
-    
-     await this.$store.commit('setShowModal',true)
-     try {
-         this.$store.commit('setSelectPlayer',player)
-         
-     } catch (error) {
-         console.log(error)
-     }
-    }
+    sortPlayers(playerForSorting) {
+      this.listOfPlayers = playerForSorting.sort(
+        (A, B) => A.data.rank - B.data.rank
+      );
+    },
+    searchByName() {
+      var resultSearch = this.players.filter((item) => {
+        return `${item.firstname}|${item.lastname}|`
+          .toLowerCase()
+          .includes(this.searchValue.toLowerCase());
+      });
+      this.sortPlayers(resultSearch);
+    },
+
+    async openModal(player) {
+      await this.$store.commit("setShowModal", true);
+      try {
+        this.$store.commit("setSelectPlayer", player);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 
   async created() {
-    this.$store.dispatch("getPlayers");
+    await this.$store.dispatch("getPlayers");
+    try {
+      this.sortPlayers(this.players);
+      
+    } catch (error) {
+      new Error('Server Error !');
+    }
   },
+ 
 };
 </script>
 <style lang="scss" scoped>
-
-
 .bg-container {
   background-size: cover;
   background-repeat: no-repeat;
@@ -97,10 +97,9 @@ export default {
   height: 100%;
   max-width: 640px;
 }
-.list{
-     height:100vh;
-      padding-right: 2%;
-      
+.list {
+  height: 100vh;
+  padding-right: 2%;
 }
 .form-control {
   background-color: black;
@@ -118,5 +117,4 @@ export default {
   font-size: 110%;
   letter-spacing: 1px;
 }
-
 </style>

@@ -35,7 +35,7 @@ export default {
   name: "TicketPlayer",
   props: {
     player: {
-      type: Array,
+      type: Object,
     },
   },
  
@@ -132,7 +132,8 @@ div > h3 {
   text-transform: uppercase;
      font-family: $text-font;
     
-      color: $grey-color;
+      color: $black-color;
+      opacity: 30%;
       letter-spacing: 2px;
           font-size: 14px;
           font-weight: 600;
