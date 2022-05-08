@@ -85,6 +85,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+
 .bg-container {
   background-size: cover;
   background-repeat: no-repeat;
@@ -92,22 +94,56 @@ export default {
   background-position: center center;
 
   width: 100%;
+  
 }
 .players-container {
   height: 100%;
-  max-width: 640px;
+  max-width: 700px;
+  overflow: auto;
+  overflow-x:hidden ;
 }
 .list {
-  height: 100vh;
+
   padding-right: 2%;
+     
+}
+::-webkit-scrollbar {
+  width: 5%;
+ 
+}
+::-webkit-scrollbar-thumb{
+ background: rgba(0, 0, 0, 0.3);
+ 
+  border-radius: 5px;
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+::-webkit-scrollbar-thumb:hover{
+  background: rgb(255,255,255,0.3);
+  border-radius: 5px;
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .form-control {
   background-color: black;
-  opacity: 50%;
+  opacity: 30%;
   border-color: black;
   border-radius: 10px;
+  max-width: 95%;
+  padding: 2.5%;
+  height: 10%;
+  color: black;
+  font-size: 20px;
+  
 
-  padding: 1.5%;
+}
+.form-control:hover {
+  background-color: white;
+  opacity: 30%;
+  border-color: black;
+  border-radius: 10px;
+  max-width: 95%;
+  padding: 2.5%;
 }
 .form-control::placeholder {
   color: #f2753b;

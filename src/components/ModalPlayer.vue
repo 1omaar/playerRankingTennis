@@ -3,10 +3,10 @@
     <button type="button" class="btn-close" @click="closeModal">+</button>
     <div class="modal container-fluid">
       <div class="row d-flex">
-        <div class="container-image col-sm-3 col d-none d-sm-block">
+        <div class="container-image col-sm-3 col d-none d-md-block">
           <img :src="player.picture" :alt="`photo de ${player.firstname}`" />
         </div>
-        <div class="col-sm-5 col d-flex flex-column  ">
+        <div class="col-sm-5 col d-flex flex-column  col-info-section">
 
         <div class="name-style mb-4">
           <h1 :firstName="player.firstname">{{ player.firstname }}</h1>
@@ -24,7 +24,7 @@
             </div>
             <div class="col ">
               <p>Country</p>
-              <b>{{nameOfCountry[0].name}}</b>
+              <b>{{country}}</b>
             </div>
           </div>
           <div class="row">
@@ -86,21 +86,25 @@ export default {
   name: "ModalPlayer",
   data() {
     return {
-      myJson: data
+      myJson: data,
+      country:null
     };
   },
   computed: {
     ...mapGetters({
       player: "player",
     }),
-        nameOfCountry(){
-       return this.myJson.filter(country=>{
-               return country.alpha == this.player.country.code
-            })
-        }
+       
   },
-
+ mounted(){
+ this.nameOfCountry()
+},
   methods: {
+      nameOfCountry(){
+            this.country = this.myJson.forEach(element=>{
+             return element.Object.key()===this.player.country.code
+           });
+        },
     closeModal() {
       this.$store.commit("setShowModal", false);
     },
@@ -109,6 +113,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/styles/variables.scss";
+@import '@/styles/responsive.scss';
 .modal-backdrop {
   top: 0;
   bottom: 0;
@@ -236,9 +241,27 @@ b {
 }
 .additional-info-container {
 position: relative;
-//  height:36vh;
+
  max-width:16% ;
 
+}
+@media (max-width: $breakpoint-medium) {
+  .additional-info-container {
+     max-width:100% ;
+     margin-left: 5%;
+  }
+  .col-info-section {
+    margin:0 5%;
+  }
+  h1{
+     font-size: max(5vw, 30px)!important;
+  }
+  h2{
+     font-size: max(6vw, 40px)!important;
+  }
+  .modal {
+  overflow: auto;
+}
 }
 .success-info{
   font-weight: lighter;

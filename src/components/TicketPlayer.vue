@@ -50,7 +50,7 @@ export default {
 @import '@/styles/responsive.scss';
 .ticket-style {
   background: $white-color;
-  width: 100%;
+  max-width: 95%;
   height: 150px;
     box-shadow: 7px 7px 30px -5px rgba(0,0,0,0.1);
   position: relative;
