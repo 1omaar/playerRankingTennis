@@ -10,15 +10,15 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Testing mutations, getters and component
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+npm run test:unit
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Run server 
+```
+node server.js
+```
+
+### Click to see project in Cloud
+(https://ranking-tennis.herokuapp.com/).

@@ -67,7 +67,7 @@ export default {
       try {
         this.$store.commit("setSelectPlayer", player);
       } catch (error) {
-        console.log(error);
+        error;
       }
     },
   },

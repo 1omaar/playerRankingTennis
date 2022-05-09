@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import Home from '@/views/Home.vue';
-import Detail from '@/views/Detail.vue';
+import Error from '@/views/Error.vue';
 
 const routes = [
     {
@@ -10,9 +10,9 @@ const routes = [
        
     },
     {
-        name:"Detail",
-        path:"/detail/player/:id",
-        component:Detail,
+        name:"Error",
+        path:"/:catchAll(.*)",
+        component:Error,
         
     }
 ];

@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 
 
@@ -9,7 +8,7 @@ import axios from 'axios'
       
       commit('setPlayers', response.data.players);
     } catch (error) {
-      console.log(error)
+      error.response.data
     }
   },
 
