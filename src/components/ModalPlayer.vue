@@ -6,71 +6,81 @@
         <div class="container-image col-sm-3 col d-none d-md-block">
           <img :src="player.picture" :alt="`photo de ${player.firstname}`" />
         </div>
-        <div class="col-sm-5 col d-flex flex-column  col-info-section">
-
-        <div class="name-style mb-4">
-          <h1 :firstName="player.firstname">{{ player.firstname }}</h1>
-          <h2>{{ player.lastname }}</h2>
+        <div class="col-sm-5 col d-flex flex-column col-info-section">
+          <div class="name-style mb-4">
+            <h1 :firstName="player.firstname">{{ player.firstname }}</h1>
+            <h2>{{ player.lastname }}</h2>
+          </div>
+          <div class="container info-section mt-4">
+            <div class="row">
+              <div class="col">
+                <p>Rank</p>
+                <b>#{{ player.data.rank }}</b>
+              </div>
+              <div class="col">
+                <p>Points</p>
+                <b>{{ player.data.points }}</b>
+              </div>
+              <div class="col">
+                <p>Country</p>
+                <b>{{ nameOfCountry }}</b>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 col">
+                <p>Birthday</p>
+                <b>23/04/1995</b>
+              </div>
+              <div class="col-sm-8 col">
+                <p>Age</p>
+                <b>{{ player.data.age }}</b>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 col">
+                <p>Weight</p>
+                <b>{{ player.data.weight / 1000 }} kg</b>
+              </div>
+              <div class="col-sm-8 col">
+                <p>Height</p>
+                <b>{{ player.data.height }} cmm</b>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="container info-section mt-4">
-          <div class="row">
-            <div class="col ">
-              <p>Rank</p>
-              <b>#{{ player.data.rank }}</b>
-            </div>
-            <div class="col ">
-              <p>Points</p>
-              <b>{{ player.data.points }}</b>
-            </div>
-            <div class="col ">
-              <p>Country</p>
-              <b>{{country}}</b>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4 col">
-              <p>Birthday</p>
-              <b>23/04/1995</b>
-            </div>
-            <div class="col-sm-8 col">
-              <p>Age</p>
-              <b>{{ player.data.age }}</b>
-            </div>
-          </div>
-          <div class="row ">
-            <div class="col-sm-4 col  ">
-              <p>Weight</p>
-              <b>{{ player.data.weight / 1000 }} kg</b>
-            </div>
-            <div class="col-sm-8 col ">
-              <p>Height</p>
-              <b>{{ player.data.height }} cmm</b>
-            </div>
-          </div>
-        </div>
-</div>
 
-        <div class="additional-info-container col-sm-4 col d-sm-flex flex-column justify-content-between">
-            <div class="container">
-            <div class="row d-flex justify-content-center">
-          <div
-            class="picture-country  "
-            :style="{ backgroundImage: `url(${player.country.picture})` }"
-          ></div>
-          </div>
-          <div class="row d-flex justify-content-center mt-2">
-            <h1 class="country-code">{{player.country.code}}</h1>
-          </div>
-            </div>
+        <div
+          class="additional-info-container col-sm-4 col d-sm-flex flex-column justify-content-between"
+        >
           <div class="container">
-            <div class="row ">
+            <div class="row d-flex justify-content-center">
+              <div
+                class="picture-country"
+                :style="{ backgroundImage: `url(${player.country.picture})` }"
+              ></div>
+            </div>
+            <div class="row d-flex justify-content-center mt-2">
+              <h1 class="country-code">{{ player.country.code }}</h1>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
               <div class="col">
                 <p>career Titles</p>
               </div>
             </div>
             <div class="row">
-              <div class="col success-info" >
-                <span> Rafael Nadal dispute en 2002 son premier tournoi sur le circuit majeur à Majorque, tournoi se jouant sur terre battue, dans sa ville natale, à la fin du mois d'avril 2002, bénéficiant d'une wild card (invitation). Il remporte ainsi son premier match « officiel » contre le Paraguayen Ramón Delgado en deux manches (6-4, 6-4). Au tour suivant, il s'incline néanmoins contre le Belge Olivier Rochus (2-6, 2-6).</span>
+              <div class="col success-info">
+                <span>
+                  Rafael Nadal dispute en 2002 son premier tournoi sur le
+                  circuit majeur à Majorque, tournoi se jouant sur terre battue,
+                  dans sa ville natale, à la fin du mois d'avril 2002,
+                  bénéficiant d'une wild card (invitation). Il remporte ainsi
+                  son premier match « officiel » contre le Paraguayen Ramón
+                  Delgado en deux manches (6-4, 6-4). Au tour suivant, il
+                  s'incline néanmoins contre le Belge Olivier Rochus (2-6,
+                  2-6).</span
+                >
               </div>
             </div>
           </div>
@@ -87,24 +97,20 @@ export default {
   data() {
     return {
       myJson: data,
-      country:null
+      country: null,
     };
   },
   computed: {
     ...mapGetters({
       player: "player",
     }),
-       
+    nameOfCountry() {
+      let key = this.player.country.code;
+      return this.myJson[key];
+    },
   },
- mounted(){
- this.nameOfCountry()
-},
+
   methods: {
-      nameOfCountry(){
-            this.country = this.myJson.forEach(element=>{
-             return element.Object.key()===this.player.country.code
-           });
-        },
     closeModal() {
       this.$store.commit("setShowModal", false);
     },
@@ -113,7 +119,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/styles/variables.scss";
-@import '@/styles/responsive.scss';
+@import "@/styles/responsive.scss";
 .modal-backdrop {
   top: 0;
   bottom: 0;
@@ -124,13 +130,13 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.country-code{
+.country-code {
   letter-spacing: 25px;
   font-size: 50px;
   color: $black-color;
-  opacity:30%;
+  opacity: 30%;
   font-weight: 100 !important;
-   font-family: $title-font;
+  font-family: $title-font;
 }
 .modal {
   max-width: 80%;
@@ -147,21 +153,20 @@ export default {
 }
 .modal > .row {
   width: 100vw;
- position: relative;
- margin-left: -46vw;
- height: 100px;
- margin-top: 100px;
- left: 50%;
+  position: relative;
+  margin-left: -46vw;
+  height: 100px;
+  margin-top: 100px;
+  left: 50%;
 }
 .container-image > img {
-  position: absolute;
   filter: drop-shadow(7px 0px 10px $black-color);
   float: left;
-    max-width:  600px;
-    height: 800px;
-    object-fit: cover;  
+  max-width: 600px;
+  height: 800px;
+  object-fit: cover;
   left: -3vh;
-  
+
   bottom: -2vh;
   flex-shrink: 0;
 }
@@ -186,7 +191,6 @@ export default {
 }
 
 .name-style {
-  
   h1 {
     position: relative;
     font-family: $title-font;
@@ -237,37 +241,35 @@ b {
   height: 13.5vh;
   background-repeat: no-repeat;
   background-size: contain;
- 
 }
 .additional-info-container {
-position: relative;
-
- max-width:16% ;
-
+  position: relative;
+  margin-bottom: 5.5%;
+  max-width: 16%;
 }
 @media (max-width: $breakpoint-medium) {
   .additional-info-container {
-     max-width:100% ;
-     margin-left: 5%;
+    max-width: 100%;
+    margin-left: 5%;
   }
   .col-info-section {
-    margin:0 5%;
+    margin: 0 5%;
   }
-  h1{
-     font-size: max(5vw, 30px)!important;
+  h1 {
+    font-size: max(5vw, 30px) !important;
   }
-  h2{
-     font-size: max(6vw, 40px)!important;
+  h2 {
+    font-size: max(6vw, 40px) !important;
   }
   .modal {
-  overflow: auto;
+    overflow: auto;
+  }
 }
-}
-.success-info{
+.success-info {
   font-weight: lighter;
-    font-family: $title-font;
+  font-family: $title-font;
   font-size: 20px;
-  
+
   color: $main-color;
 }
 </style>

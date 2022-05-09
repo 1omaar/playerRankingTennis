@@ -1,4 +1,4 @@
-export const mutations = {
+ const mutations = {
   setPlayers(state, players) {
     state.players = players;
   },
@@ -9,3 +9,4 @@ export const mutations = {
     state.player = player;
   },
 };
+export default mutations;

@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 
-export const actions = {
+ const actions = {
   async getPlayers({ commit }) {
     try {
       const response = await axios.get('https://data.latelier.co/training/tennis_stats/headtohead.json');
@@ -14,3 +14,4 @@ export const actions = {
   },
 
 };
+export default actions ;
